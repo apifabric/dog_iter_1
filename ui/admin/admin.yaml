@@ -1,0 +1,368 @@
+about:
+  date: October 26, 2024 16:31:58
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 13
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Dog:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: owner_id
+      required: true
+    - name: id
+    - name: breed
+    description: Table to store individual dog information linked to their owner.
+    info_list: Table to store individual dog information linked to their owner.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dog_id
+      name: WalkList
+      resource: Walk
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    type: Dog
+    user_key: name
+  Location:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: address
+    - name: id
+    description: Table to define possible walk locations including their addresses.
+    info_list: Table to define possible walk locations including their addresses.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - location_id
+      name: WalkList
+      resource: Walk
+    type: Location
+    user_key: name
+  Owner:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: email
+    - name: account_balance
+      required: true
+    - name: id
+    description: Table to store dog owner's information, including their first and
+      last names, email, and account balance.
+    info_list: Table to store dog owner's information, including their first and last
+      names, email, and account balance.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - owner_id
+      name: DogList
+      resource: Dog
+    - direction: tomany
+      fks:
+      - owner_id
+      name: ReviewList
+      resource: Review
+    - direction: tomany
+      fks:
+      - owner_id
+      name: SubscriptionList
+      resource: Subscription
+    type: Owner
+    user_key: first_name
+  Package:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: price
+      required: true
+    - name: id
+    description: Table to outline package options available for walks.
+    info_list: Table to outline package options available for walks.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - package_id
+      name: SubscriptionList
+      resource: Subscription
+    - direction: tomany
+      fks:
+      - package_id
+      name: WalkerPackageList
+      resource: WalkerPackage
+    type: Package
+    user_key: name
+  Review:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: owner_id
+      required: true
+    - name: walker_id
+      required: true
+    - name: rating
+      required: true
+    - name: comment
+    description: Table to capture reviews and ratings provided by owners for walkers.
+    info_list: Table to capture reviews and ratings provided by owners for walkers.
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: Review
+    user_key: id
+  Schedule:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: walker_id
+      required: true
+    - name: available_date
+      required: true
+    - name: start_time
+    - name: end_time
+    description: Table to manage availability of walkers by date and time.
+    info_list: Table to manage availability of walkers by date and time.
+    tab_groups:
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: Schedule
+    user_key: id
+  Service:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: Table to list the types of services provided by walkers.
+    info_list: Table to list the types of services provided by walkers.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_id
+      name: WalkerServiceList
+      resource: WalkerService
+    type: Service
+    user_key: name
+  Subscription:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: owner_id
+      required: true
+    - name: package_id
+      required: true
+    - name: start_date
+      required: true
+    - name: end_date
+    description: Table to record subscriptions of owners to specific packages.
+    info_list: Table to record subscriptions of owners to specific packages.
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - package_id
+      name: package
+      resource: Package
+    type: Subscription
+    user_key: id
+  Walk:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dog_id
+      required: true
+    - name: location_id
+    - name: walker_id
+      required: true
+    - name: date_time
+      required: true
+    - name: duration_minutes
+    description: Table to manage details of walk events.
+    info_list: Table to manage details of walk events.
+    tab_groups:
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    - direction: toone
+      fks:
+      - location_id
+      name: location
+      resource: Location
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: Walk
+    user_key: id
+  Walker:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: rating
+    - name: id
+    description: Table to store dog walker details along with their service rating.
+    info_list: Table to store dog walker details along with their service rating.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - walker_id
+      name: ReviewList
+      resource: Review
+    - direction: tomany
+      fks:
+      - walker_id
+      name: ScheduleList
+      resource: Schedule
+    - direction: tomany
+      fks:
+      - walker_id
+      name: WalkList
+      resource: Walk
+    - direction: tomany
+      fks:
+      - walker_id
+      name: WalkerPackageList
+      resource: WalkerPackage
+    - direction: tomany
+      fks:
+      - walker_id
+      name: WalkerServiceList
+      resource: WalkerService
+    type: Walker
+    user_key: name
+  WalkerPackage:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: package_id
+      required: true
+    - name: walker_id
+      required: true
+    description: Table to associate walkers with specific service packages.
+    info_list: Table to associate walkers with specific service packages.
+    tab_groups:
+    - direction: toone
+      fks:
+      - package_id
+      name: package
+      resource: Package
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: WalkerPackage
+    user_key: id
+  WalkerService:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: service_id
+      required: true
+    - name: walker_id
+      required: true
+    description: Table to establish the connection between walkers and services they
+      offer.
+    info_list: Table to establish the connection between walkers and services they
+      offer.
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: Service
+    - direction: toone
+      fks:
+      - walker_id
+      name: walker
+      resource: Walker
+    type: WalkerService
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

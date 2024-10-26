@@ -1,0 +1,103 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Dog {
+    id INTEGER [primary key]
+    name VARCHAR 
+    breed VARCHAR 
+    owner_id INTEGER 
+    }
+
+Table Owner {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    email VARCHAR 
+    account_balance FLOAT 
+    }
+
+Table Location {
+    id INTEGER [primary key]
+    name VARCHAR 
+    address VARCHAR 
+    }
+
+Table Package {
+    id INTEGER [primary key]
+    name VARCHAR 
+    price FLOAT 
+    }
+
+Table Review {
+    id INTEGER [primary key]
+    walker_id INTEGER 
+    owner_id INTEGER 
+    rating INTEGER 
+    comment VARCHAR 
+    }
+
+Table Walker {
+    id INTEGER [primary key]
+    name VARCHAR 
+    rating FLOAT 
+    }
+
+Table Schedule {
+    id INTEGER [primary key]
+    walker_id INTEGER 
+    available_date DATETIME 
+    start_time DATETIME 
+    end_time DATETIME 
+    }
+
+Table Service {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    }
+
+Table Subscription {
+    id INTEGER [primary key]
+    owner_id INTEGER 
+    package_id INTEGER 
+    start_date DATETIME 
+    end_date DATETIME 
+    }
+
+Table Walk {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    walker_id INTEGER 
+    date_time DATETIME 
+    duration_minutes INTEGER 
+    location_id INTEGER 
+    }
+
+Table WalkerPackage {
+    id INTEGER [primary key]
+    walker_id INTEGER 
+    package_id INTEGER 
+    }
+
+Table WalkerService {
+    id INTEGER [primary key]
+    walker_id INTEGER 
+    service_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Dog.(owner_id) < Owner.(id)
+    Ref: Review.(owner_id) < Owner.(id)
+    Ref: Review.(walker_id) < Walker.(id)
+    Ref: Schedule.(walker_id) < Walker.(id)
+    Ref: Subscription.(owner_id) < Owner.(id)
+    Ref: Subscription.(package_id) < Package.(id)
+    Ref: Walk.(dog_id) < Dog.(id)
+    Ref: Walk.(location_id) < Location.(id)
+    Ref: Walk.(walker_id) < Walker.(id)
+    Ref: WalkerPackage.(package_id) < Package.(id)
+    Ref: WalkerPackage.(walker_id) < Walker.(id)
+    Ref: WalkerService.(service_id) < Service.(id)
+    Ref: WalkerService.(walker_id) < Walker.(id)
